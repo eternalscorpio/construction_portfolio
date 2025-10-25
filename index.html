@@ -657,11 +657,36 @@
             }
             
             nav ul {
-                display: none;
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: white;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 50px;
+                transition: right 0.3s ease;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            nav ul.active {
+                right: 0;
+            }
+            
+            nav ul li {
+                margin: 20px 0;
+            }
+            
+            nav ul li a {
+                font-size: 1.2rem;
+                padding: 10px 20px;
             }
             
             .mobile-menu {
                 display: block;
+                color: var(--primary);
             }
             
             .hero-btns {
@@ -1081,7 +1106,7 @@
         const nav = document.querySelector('nav ul');
 
         mobileMenu.addEventListener('click', () => {
-            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+            nav.classList.toggle('active');
         });
 
         // Close mobile menu when clicking on a link
@@ -1089,9 +1114,16 @@
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 768) {
-                    nav.style.display = 'none';
+                    nav.classList.remove('active');
                 }
             });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && !e.target.closest('header')) {
+                nav.classList.remove('active');
+            }
         });
     </script>
 </body>
